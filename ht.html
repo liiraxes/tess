@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Katalog Suku Cadang Elektronik</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background-color: #007bff;
+        color: #fff;
+        padding: 15px;
+        text-align: center;
+      }
+
+      header nav a {
+        color: #fff;
+        margin: 0 10px;
+        text-decoration: none;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      h2 {
+        color: #007bff;
+      }
+
+      .item-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .item {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        width: 150px;
+        cursor: pointer;
+        text-align: center;
+      }
+
+      .item:hover {
+        background-color: #f0f0f0;
+      }
+
+      footer {
+        background-color: #007bff;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Katalog Suku Cadang Elektronik</h1>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#catalog">Katalog</a>
+        <a href="#calculator">Kalkulator Resistor</a>
+        <a href="#cart">Keranjang</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="home">
+        <h2>Selamat Datang di Katalog Suku Cadang</h2>
+        <p>
+          Temukan berbagai suku cadang elektronik beserta informasi harga, stok,
+          dan kalkulator kode warna.
+        </p>
+      </section>
+
+      <section id="catalog">
+        <h2>Katalog Suku Cadang</h2>
+        <div class="item-list">
+          <!-- Daftar suku cadang, bisa ditambah lebih banyak -->
+          <div class="item" onclick="addToCart('Resistor 10Ω', 500)">
+            <h3>Resistor 10Ω</h3>
+            <p>Harga: Rp 500</p>
+          </div>
+          <div class="item" onclick="addToCart('Kapasitor 10μF', 1000)">
+            <h3>Kapasitor 10μF</h3>
+            <p>Harga: Rp 1000</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="calculator">
+        <h2>Kalkulator Resistor</h2>
+        <label for="resistor-value">Masukkan Nilai Resistor:</label>
+        <input
+          type="number"
+          id="resistor-value"
+          placeholder="Masukkan nilai (Ω)"
+        />
+        <button onclick="calculateResistor()">Hitung Harga</button>
+        <p id="calc-result">Harga: Rp 0</p>
+      </section>
+
+      <section id="cart">
+        <h2>Keranjang Belanja</h2>
+        <div id="cart-items"></div>
+        <p id="total-price">Total Harga: Rp 0</p>
+        <button onclick="checkout()">Checkout</button>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Katalog Suku Cadang Elektronik</p>
+    </footer>
+
+    <script>
+      let cart = [];
+      let totalPrice = 0;
+
+      // Function to add items to cart
+      function addToCart(itemName, itemPrice) {
+        cart.push({ name: itemName, price: itemPrice });
+        totalPrice += itemPrice;
+        updateCart();
+        alert(`${itemName} telah ditambahkan ke keranjang.`);
+      }
+
+      // Function to update the cart display
+      function updateCart() {
+        const cartItems = document.getElementById("cart-items");
+        cartItems.innerHTML = "";
+        cart.forEach((item) => {
+          const itemElement = document.createElement("p");
+          itemElement.textContent = `${item.name} - Rp ${item.price}`;
+          cartItems.appendChild(itemElement);
+        });
+        document.getElementById(
+          "total-price"
+        ).textContent = `Total Harga: Rp ${totalPrice}`;
+      }
+
+      // Resistor price calculator function
+      function calculateResistor() {
+        const resistorValue = document.getElementById("resistor-value").value;
+        const pricePerOhm = 5; // Harga contoh per Ohm
+        const result = resistorValue * pricePerOhm;
+        document.getElementById(
+          "calc-result"
+        ).textContent = `Harga: Rp ${result}`;
+      }
+
+      // Function to handle checkout
+      function checkout() {
+        if (cart.length === 0) {
+          alert("Keranjang masih kosong!");
+        } else {
+          alert(`Total belanja Anda: Rp ${totalPrice}. Terima kasih!`);
+          cart = [];
+          totalPrice = 0;
+        
